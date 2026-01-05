@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pesan & Kesan — Praktikum SIM A</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Optional: Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --bg0: #05070f;
+        --bg1: #070a18;
+        --card: rgba(255, 255, 255, 0.06);
+        --card2: rgba(255, 255, 255, 0.1);
+        --stroke: rgba(255, 255, 255, 0.12);
+        --glow: 0 0 24px rgba(0, 255, 204, 0.25), 0 0 64px rgba(128, 0, 255, 0.18);
+        --accent: #00ffcc;
+        --accent2: #9b5cff;
+        --text: #e9ecff;
+        --muted: #b9c0ffcc;
+      }
+
+      body {
+        background: radial-gradient(1200px 800px at 15% 15%, rgba(0, 255, 204, 0.12), transparent 60%), radial-gradient(900px 650px at 85% 25%, rgba(155, 92, 255, 0.14), transparent 60%),
+          radial-gradient(1000px 800px at 40% 110%, rgba(255, 255, 255, 0.06), transparent 55%), linear-gradient(180deg, var(--bg0), var(--bg1));
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Animated grid background */
+      .grid {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 54px 54px;
+        mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 0) 75%);
+        opacity: 0.2;
+        animation: drift 16s linear infinite;
+      }
+      @keyframes drift {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(54px);
+        }
+      }
+
+      .brand-badge {
+        background: linear-gradient(90deg, rgba(0, 255, 204, 0.2), rgba(155, 92, 255, 0.18));
+        border: 1px solid var(--stroke);
+        border-radius: 999px;
+        padding: 0.45rem 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: var(--glow);
+        backdrop-filter: blur(10px);
+      }
+
+      .glass {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(14px);
+        border-radius: 18px;
+      }
+
+      .btn-tech {
+        border: 1px solid rgba(0, 255, 204, 0.35);
+        background: linear-gradient(90deg, rgba(0, 255, 204, 0.2), rgba(155, 92, 255, 0.16));
+        color: var(--text);
+        box-shadow: var(--glow);
+      }
+      .btn-tech:hover {
+        filter: brightness(1.1);
+      }
+
+      .btn-outline-tech {
+        border: 1px solid rgba(233, 236, 255, 0.25);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .btn-outline-tech:hover {
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .form-control {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: var(--text);
+      }
+      .form-control:focus {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(0, 255, 204, 0.45);
+        box-shadow: 0 0 0 0.25rem rgba(0, 255, 204, 0.12);
+        color: var(--text);
+      }
+
+      .hint {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+
+      .chip {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+        margin: 1rem 0;
+      }
+
+      .typewriter {
+        border-right: 2px solid rgba(0, 255, 204, 0.55);
+        white-space: nowrap;
+        overflow: hidden;
+        animation: typing 2.2s steps(28, end), blink 0.75s step-end infinite;
+        max-width: 100%;
+        display: inline-block;
+        vertical-align: bottom;
+      }
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+      @keyframes blink {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: rgba(0, 255, 204, 0.55);
+        }
+      }
+
+      footer {
+        color: rgba(233, 236, 255, 0.65);
+      }
+
+      .smallcaps {
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        color: rgba(233, 236, 255, 0.7);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="grid"></div>
+
+    <main class="container py-4 py-md-5">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="brand-badge">
+          <i class="bi bi-cpu-fill"></i>
+          <div class="mono">
+            <div class="smallcaps">Praktikum</div>
+            <div class="fw-semibold">SIM A • Pesan & Kesan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <section class="glass p-4 p-md-5 mb-4">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <div class="chip mb-3 mono">
+              <i class="bi bi-shield-check"></i>
+              <span>Personalized • NIM-locked • Mobile-ready</span>
+            </div>
+
+            <h1 class="display-6 fw-bold mb-2">Selamat datang di laman praktikum <span class="mono" style="color: var(--accent)">SIM A</span></h1>
+
+            <p class="hint mb-4">Masukkan <span class="mono">NIM</span> untuk membuka pesan & kesan dari asprak. Tampilan dibuat “tech banget” biar vibes-nya kayak portal akses sistem (tapi aman, ini cuma web 😄).</p>
+
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-tech px-4" type="button" data-bs-toggle="modal" data-bs-target="#nimModal" id="btnOpen"><i class="bi bi-terminal-fill me-1"></i> Masukkan NIM</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="mono hint">
+              <span class="text-success">STATUS:</span>
+              <span id="statusText">Menunggu input NIM…</span>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="glass p-3 p-md-4">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-braces-asterisk" style="color: var(--accent2)"></i>
+                <div class="fw-semibold">Workflow</div>
+              </div>
+              <ol class="hint mb-0">
+                <li>Masuk ke laman ini</li>
+                <li>Klik tombol <span class="mono">Masukkan NIM</span></li>
+                <li>Lihat pesan & kesan sesuai NIM</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Result (hidden first) -->
+      <section class="glass p-4 p-md-5 d-none" id="resultSection">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+          <div>
+            <div class="smallcaps">Pesan & Kesan</div>
+            <h2 class="h4 mb-1">
+              <span id="greetLine" class="typewriter"></span>
+            </h2>
+            <div class="hint mono">NIM: <span id="nimOut"></span> • Kode: <span id="codeOut"></span></div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-tech btn-sm" id="btnCopy" type="button"><i class="bi bi-clipboard"></i> Copy</button>
+            <button class="btn btn-tech btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#nimModal"><i class="bi bi-terminal-fill"></i> Ganti NIM</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row g-3">
+          <div class="col-lg-7">
+            <div class="glass p-3 p-md-4 h-100">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-chat-square-heart-fill" style="color: var(--accent)"></i>
+                <div class="fw-semibold">Pesan</div>
+              </div>
+              <p class="hint mb-0" id="pesanOut"></p>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="glass p-3 p-md-4 h-100">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-stars" style="color: var(--accent2)"></i>
+                <div class="fw-semibold">Kesan</div>
+              </div>
+              <p class="hint mb-0" id="kesanOut"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="mt-4 text-center hint"><span class="mono">Tip:</span> halaman ini enak dipakai di HP. Cukup scroll & tap.</div>
+
+      <footer class="mt-5 pt-4 border-top border-light border-opacity-10 text-center">
+        <div class="mono">— dibuat oleh <span id="footerAsprak">ASISTEN PRAKTIKUM</span> —</div>
+
+        <div class="hint mt-2">
+          <i class="bi bi-instagram me-1"></i>
+          your sincere assistants:
+          <a href="https://instagram.com/mhdjakiii" target="_blank" rel="noopener" class="text-decoration-none mono" style="color: var(--accent)"> @Zaki </a>
+          <span class="mx-2">•</span>
+          <a href="https://instagram.com/kfabih" target="_blank" rel="noopener" class="text-decoration-none mono" style="color: var(--accent2)"> @Kafabih </a>
+          <span class="ms-2">— yang belum follow, gas dulu 😄</span>
+        </div>
+
+        <div class="hint mt-2">SIM A • 2026</div>
+      </footer>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="nimModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass">
+          <div class="modal-header border-0">
+            <h5 class="modal-title mono"><i class="bi bi-terminal-fill me-2"></i> Input NIM</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <label class="form-label hint">Masukkan NIM (contoh: <span class="mono">24611039</span>)</label>
+            <input class="form-control form-control-lg mono" id="nimInput" inputmode="numeric" placeholder="24611xxx" />
+            <div class="hint mt-2">Sistem akan menampilkan pesan yang sesuai dengan NIM kamu.</div>
+
+            <div class="divider"></div>
+
+            <label class="form-label hint">Nama Asprak (opsional, untuk footer)</label>
+            <input class="form-control mono" id="asprakName" placeholder="misal: Kak Raka" />
+            <div class="hint mt-2">Kalau dikosongkan, footer akan menampilkan “ASISTEN PRAKTIKUM”.</div>
+          </div>
+
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-outline-tech" data-bs-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-tech" id="btnSubmit"><i class="bi bi-unlock-fill me-1"></i> Lihat Pesan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+      <div id="toast" class="toast align-items-center text-bg-dark border border-light border-opacity-10" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body mono" id="toastText">OK</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // ====== DATA: NIM -> {name, gender, pesan, kesan} ======
+      // gender: "M" / "F"
+      const DB = {
+        24611039: {
+          name: "AFRIATIN",
+          gender: "F",
+          pesan:
+            "Mbak Afriatin, kami mau bilang: kamu itu tipe praktikan yang kalau belajar pelan-pelan tapi konsisten, hasilnya suka ‘tiba-tiba jago’. Serius. Terlihat dari cara kamu ngerjain tugas yang rapi dan nggak ngasal.\n\nKalau lagi capek, ingat: progress kecil tetap progress. Bahkan SIM (Sistem Informasi Manajemen) pun kalau datanya berantakan bisa ‘ngambek’—apalagi kita 😄. Jadi tetap jaga ritme: kerjain sedikit, cek hasil, baru lanjut.\n\nTerima kasih ya sudah berusaha, hadir, dan tetap jalan walau kadang materi terasa kayak ‘menu restoran’—banyak pilihan, bikin pusing, tapi ujungnya kenyang juga.",
+          kesan: "Kesan kami: Mbak Afriatin itu rapi, kalem, dan fokus. Vibes-nya kayak ‘admin sistem’ yang jarang panik. Kerjanya nggak heboh, tapi hasilnya mantap. Kalau SIM punya mode ‘stabil’, itu kamu. 👩‍💻✨",
+        },
+
+        24611056: {
+          name: "ANGELICA AMELIA VEGA LA BIDU",
+          gender: "F",
+          pesan:
+            "Mbak Angelica, energi kamu tuh kerasa: aktif, penasaran, dan nggak gampang nyerah. Itu bagus banget di SIM, karena kadang SIM itu bukan cuma mata kuliah… tapi juga ujian kesabaran 😭.\n\nKalau ketemu error, treat itu bukan musuh—itu ‘clue’. Debug pelan-pelan: cek input, cek proses, cek output. Jangan langsung menyalahkan laptop dulu (walau kadang laptop juga ikut drama).\n\nKami apresiasi banget karena kamu keliatan mau paham, bukan cuma mau selesai. Terus jaga rasa ingin tahu itu, karena orang yang penasaran biasanya naik level lebih cepat.",
+          kesan: "Kesan: kamu komunikatif, cepat nangkep, dan vibe positifnya nular. Enak diajak koordinasi. Kalau SIM itu ‘sistem’, kamu itu ‘informasi’ yang bikin sistemnya hidup. 😄💫",
+        },
+
+        24611030: {
+          name: "ANGGUN PERTIWI",
+          gender: "F",
+          pesan:
+            "Mbak Anggun, kamu udah on track banget. Yang kami suka: kamu konsisten dan nggak gampang ke-distract. Ini skill langka di era notif bunyi tiap 5 detik.\n\nSaran kecil: biasakan catat poin penting + langkah kerja. Biar laporan itu tinggal ‘compile’, bukan ‘mulai dari nol sambil menangis pelan’ 😄.\n\nTerima kasih sudah selalu berusaha rapi. SIM itu sering bikin kepala banyak tab—tapi kamu bisa nge-handle tab-tab itu dengan elegan.",
+          kesan: "Kesan: teliti, stabil, dan hasilnya rapi. Kamu tipe yang kalau disuruh presentasi alur kerja, bisa runut. SIM versi kamu: Sistem Itu Masuk akal. ✅",
+        },
+
+        24611035: {
+          name: "ANINDITYA CANTIKA PUTRI RAMADHANI",
+          gender: "F",
+          pesan:
+            "Mbak Aninditya, makasih ya udah jadi praktikan yang berani bertanya dan berani memastikan. Satu pertanyaan yang tepat itu kadang menyelamatkan satu kelas dari kesalahan yang sama.\n\nDi SIM, jangan takut terlihat ‘kepo’. Justru kepo itu fitur, bukan bug. Kalau ada yang ganjil, tanya—daripada nanti laporan kamu jadi ‘Sistem Informasi Menangis’ 😭.\n\nApresiasi juga buat cara kamu yang detail. Itu modal kuat buat tugas-tugas yang butuh ketelitian dan pemahaman alur.",
+          kesan: "Kesan: komunikatif, detail, dan punya standar kerja yang bagus. Kamu kalau bikin laporan, aura ‘niat’ nya kelihatan. Praktikum jadi lebih enak karena ada kamu yang aktif. 🌟",
+        },
+
+        24611054: {
+          name: "AQILAH ISLAMI RACHMANTO",
+          gender: "M",
+          pesan:
+            "Mas Aqil, kamu itu fokusnya bagus. Kelihatan dari cara kamu ngerjain langkah demi langkah. Kalau lagi mentok, trik paling sakti di SIM: pecah masalah jadi kecil—input → proses → output.\n\nSIM itu kadang kayak relationship: kalau komunikasinya (data) nggak jelas, hasilnya (output) bisa salah paham 😄. Jadi tetap teliti dan jangan buru-buru.\n\nMakasih ya udah tetap serius belajar. Kamu punya potensi besar karena kamu nggak asal lewat—kamu benar-benar berusaha paham.",
+          kesan: "Kesan: serius tapi tetap santai. Kamu terlihat niat belajar, bukan cuma ngejar selesai. Vibes kamu: ‘tenang, tapi progres’. 🧠✨",
+        },
+
+        24611032: {
+          name: "CHINTIYA WULANDARI",
+          gender: "F",
+          pesan:
+            "Mbak Chintiya, kamu udah bagus banget. Next level-nya bener: jangan cuma ‘bisa’, tapi pahami ‘kenapa’. Karena di SIM, yang bikin nilai naik itu bukan cuma hasil, tapi reasoning di balik hasil.\n\nKalau materi terasa berat, anggap aja SIM itu kayak GPS: kadang muter-muter, tapi kalau kamu ngerti rutenya, kamu nggak panik.\n\nTerima kasih ya sudah konsisten. Konsistensi itu lebih OP daripada semangat yang cuma meledak di awal doang 😄.",
+          kesan: "Kesan: rapi, konsisten, dan punya pemahaman yang makin kuat. Kamu tipe yang kalau terus dilatih, bakal jadi ‘problem solver’ kelas. 🔧💙",
+        },
+
+        24611046: {
+          name: "FARREL WILDAN ANARGYA",
+          gender: "M",
+          pesan:
+            "Mas Farrel, kamu punya mode ‘gas’ yang bagus, tapi yang lebih keren: kamu bisa ngontrol gas itu. Di SIM, speed itu penting, tapi arah lebih penting.\n\nTerus latih problem-solving: sebelum copy langkah, coba pahami struktur. Anggap SIM itu kayak game: kalau kamu cuma hafal cheat, pas level baru kamu kaget. Tapi kalau paham mekanik, kamu bisa menang terus.\n\nApresiasi buat effort kamu—kelihatan kamu mau beneran nguasai, bukan cuma numpang lewat praktikum.",
+          kesan: "Kesan: cepat adaptasi, ritme kerja bagus, dan pede. ‘Gas tapi tetap aman’—itu definisi kamu. SIM versi kamu: Sistem Itu Mantap. 😄🚀",
+        },
+
+        24611004: {
+          name: "FINESYA AURA NADIFA",
+          gender: "F",
+          pesan:
+            "Mbak Finesya, kamu teliti banget—ini nilai plus gede di SIM. Tinggal satu upgrade: makin pede. Kadang kamu udah benar, tapi ragu sendiri.\n\nJangan ragu validasi hasil sebelum submit (cek ulang output). Itu kebiasaan orang-orang ‘pro’ yang nggak mau ketipu hasil yang terlihat benar padahal salah tipis.\n\nSIM itu sering bikin kita mikir: ‘Ini sistem informasinya atau sistem imajinasi?’ 😭 Tapi kamu tetap bisa jaga kualitas, itu keren.",
+          kesan: "Kesan: mindful, teliti, dan kualitas kerja terasa dijaga. Kamu tipe yang kalau disuruh QC (quality control), pasti cocok. 🌙✅",
+        },
+
+        24611007: {
+          name: "ILYAS SUNANDAR",
+          gender: "M",
+          pesan:
+            "Mas Ilyas, semangat kamu tuh kerasa. Dan kami suka karena kamu juga punya vibe suportif. Kalau udah paham, bantu temen itu bukan cuma baik—itu latihan paling ampuh biar ilmu nempel permanen.\n\nDi SIM, banyak yang kalah bukan karena nggak mampu, tapi karena panik. Kamu termasuk yang bisa tetap waras. Itu skill yang mahal 😄.\n\nMakasih ya sudah bikin suasana praktikum lebih enak. Kelas yang sehat itu yang ada orang-orang seperti kamu.",
+          kesan: "Kesan: santai tapi kompeten. Enak diajak kerja bareng, dan auranya suportif. Kamu itu ‘buffer stabilizer’ di sistem. 🧩✨",
+        },
+
+        24611022: {
+          name: "IMAM SYAMSUDDIN",
+          gender: "M",
+          pesan:
+            "Mas Imam, kamu kuat di eksekusi. Kelihatan kamu bisa jalanin langkah-langkah dengan yakin. Tinggal satu kebiasaan yang bikin kamu makin gila (dalam arti bagus): dokumentasi.\n\nSIM itu sering butuh ‘jejak’: kenapa ambil keputusan ini, kenapa pilih metode itu. Biar pas revisi, kamu nggak ngulang dari awal.\n\nApresiasi buat ketegasan kamu dalam ngerjain. Kamu tipe yang kalau dikasih target, bisa selesai dengan rapi.",
+          kesan: "Kesan: tegas, terstruktur, dan stabil. Terasa punya ‘engine’ kerja yang konsisten. SIM versi kamu: Sistem Itu Metodis. 🧠⚙️",
+        },
+
+        24611050: {
+          name: "LINTANG ADIRA KINAYA",
+          gender: "F",
+          pesan:
+            "Mbak Lintang, gaya belajar kamu rapi dan enak dilihat. Coba lanjutkan dengan checklist sebelum submit: input benar? rumus benar? interpretasi benar?\n\nKarena di SIM, kesalahan paling sering itu bukan konsepnya, tapi hal kecil: salah input, salah titik, salah baca output. Hal kecil, efeknya besar—kayak ‘koma’ di chat yang bikin salah paham 😄.\n\nTerima kasih ya sudah konsisten. Kamu punya kebiasaan yang bakal kepakai sampai kerja nanti.",
+          kesan: "Kesan: rapi dan konsisten. Output kamu kelihatan clean. Kamu itu tipe yang bikin laporan terasa ‘enak dibaca’. 📄✨",
+        },
+
+        24611031: {
+          name: "MAULANA ADI NUGRAHA",
+          gender: "M",
+          pesan:
+            "Mas Maulana, pace kamu bagus: cepat tapi tetap tanggap. Tinggal jaga ketelitian di detail kecil, karena bug itu suka bersembunyi di hal remeh.\n\nSIM kadang berasa kayak puzzle: satu potong salah, gambar akhirnya jadi aneh. Jadi tetap disiplin cek ulang.\n\nApresiasi karena kamu responsif. Setiap ada perubahan instruksi, kamu bisa adaptasi tanpa drama (ini langka).",
+          kesan: "Kesan: sigap, responsif, dan cepat menyesuaikan. Kamu punya ‘mode adaptif’ yang kuat. SIM versi kamu: Sistem Itu Mudah (kalau kamu yang pegang). 😄",
+        },
+
+        24611019: {
+          name: "MUHAMMAD HASBI ASH SHIDDIQY",
+          gender: "M",
+          pesan:
+            "Mas Hasbi, kamu kuat di fokus dan analisis. Yang keren: kamu nggak cuma ngerjain, tapi mikirin makna hasilnya. Itu level yang sering dilewatkan orang.\n\nCoba biasakan bikin kesimpulan singkat dari output: ‘ini artinya apa? dampaknya apa?’ Karena SIM itu inti-nya: informasi untuk keputusan.\n\nJokes receh: SIM itu bukan ‘Susah Itu Mahasiswa’, tapi kadang… yaa terasa begitu 😭. Tapi kamu bisa handle, respect.",
+          kesan: "Kesan: serius, analitis, dan pemahamannya nyambung sampai interpretasi. Kamu tipe yang kalau lanjut diasah, bakal jadi jago ‘decision-based thinking’. 🧠📊",
+        },
+
+        24611040: {
+          name: "NABIL RAFIF AHMAD",
+          gender: "M",
+          pesan:
+            "Mas Nabil, kamu udah oke dan rapi. Kebiasaan bagus kamu: uji hasil pakai contoh kecil dulu, baru jalanin full. Itu praktik yang benar banget.\n\nDi SIM, yang sering kejadian itu ‘langsung full run’ lalu kaget hasilnya kayak alien. Jadi test kecil dulu itu anti-galau.\n\nApresiasi buat cara kerja kamu yang rasional. Kamu tipe yang kalau sistem error, bukannya panik, tapi langsung cari akar masalah.",
+          kesan: "Kesan: rasional, rapi, dan punya pola kerja aman. Kamu itu ‘QA engineer’ versi praktikum. ✅🛠️",
+        },
+
+        24611024: {
+          name: "OLIVIA WAHYU RAMADHANI",
+          gender: "F",
+          pesan:
+            "Mbak Olivia, kamu punya ketenangan yang bagus. Kalau ketemu bagian susah, kamu nggak langsung chaos—kamu tetap pelan tapi pasti.\n\nTrik yang kamu bisa pakai: pause 2 menit, tarik napas, tulis ulang masalahnya. Banyak error selesai bukan karena kita tambah pintar, tapi karena kita berhenti panik 😄.\n\nTerima kasih ya sudah tetap fokus walau kadang waktu mepet. Kamu keliatan tahan tekanan, itu skill yang nggak semua orang punya.",
+          kesan: "Kesan: kalem, rapi, dan fokus. Kamu tipe yang kalau deadline mepet, masih bisa berpikir jernih. Respect. 🌿✨",
+        },
+
+        24611044: {
+          name: "PRATAMA ADI SAPUTRO",
+          gender: "M",
+          pesan:
+            "Mas Pratama, kamu konsisten dan punya alur kerja yang jelas. Saran upgrade: biasakan komentar/penjelasan singkat di tiap langkah.\n\nSIM itu bukan cuma mengerjakan, tapi juga menjelaskan ‘kenapa’ dan ‘bagaimana’. Jadi kalau kamu jelasin langkah, laporan kamu jadi lebih kuat.\n\nApresiasi buat konsistensi kamu—kamu tipe yang kalau udah mulai, pasti selesai. Itu mental yang bagus.",
+          kesan: "Kesan: stabil dan terarah. Kamu terlihat nyaman dengan workflow sistematis. SIM versi kamu: Sistem Itu Methodical, bukan Magical. 😄⚙️",
+        },
+
+        24611015: {
+          name: "SABILA ALYA RAHIMA",
+          gender: "F",
+          pesan:
+            "Mbak Sabila, kamu udah bagus dan kelihatan tekun. Yang penting: jangan takut salah. Salah itu bagian dari belajar—yang berbahaya itu salah tapi nggak mau cek ulang 😄.\n\nKamu juga enak diajak diskusi. Terus jaga rasa ingin tahu, karena itu bahan bakar paling kuat.\n\nJokes SIM: kalau sistemnya ngaco, jangan langsung bilang ‘SIM jelek’… bisa jadi datanya yang lagi cosplay jadi ‘data liar’ 😭.",
+          kesan: "Kesan: ramah, tekun, dan growth mindset-nya kerasa. Kamu punya potensi besar buat terus berkembang. 🌟📚",
+        },
+
+        24611063: {
+          name: "SALMA NURBAYANI",
+          gender: "F",
+          pesan:
+            "Mbak Salma, kamu rapi dan terstruktur. Kami suka karena kamu nggak cuma ngumpulin, tapi beneran merapikan hasil.\n\nCoba kebiasaan ringkasan 3 baris tiap selesai sesi: tujuan, langkah, hasil. Itu bikin otak kamu ‘ngunci’ materi lebih kuat.\n\nTerima kasih ya sudah konsisten. Kamu tipe yang kalau jadi manajer proyek, pasti timnya aman karena semua tercatat 😄.",
+          kesan: "Kesan: terstruktur, rapi, dan outputnya niat. Praktikum jadi terasa lebih tertib. 🗂️✨",
+        },
+
+        24611048: {
+          name: "SAYYIDATUL BILQIS",
+          gender: "F",
+          pesan:
+            "Mbak Bilqis, kamu teliti banget—dan itu superpower di SIM. Tinggal tambah percaya diri saat ambil keputusan interpretasi.\n\nKalau datanya mendukung, jangan ragu. Karena kadang orang teliti justru kebanyakan mikir sampai lupa percaya sama hasil yang sudah benar.\n\nJokes SIM: Sistem Informasi Manajemen itu harusnya bantu keputusan… tapi kadang bikin kita keputusan untuk ‘rebahan dulu’ 😭. Tapi kamu tetap jalan, keren.",
+          kesan: "Kesan: detail, hati-hati, dan kualitas kerja konsisten. Kamu tipe yang kalau bikin laporan, minim drama, banyak validasi. ✅🌙",
+        },
+
+        24611052: {
+          name: "SHOFI SALSABILA A",
+          gender: "F",
+          pesan:
+            "Mbak Shofi, semangat kamu keliatan. Dan kami lihat kamu makin lama makin adaptif.\n\nSaran kecil yang ngaruh besar: cek ulang format & kerapian. Karena nilai laporan itu kadang naik bukan karena tambah 10 halaman, tapi karena rapi, jelas, dan enak dibaca.\n\nTerima kasih ya sudah terus improve. Growth kamu kebaca dari hasil-hasil tugas yang makin matang.",
+          kesan: "Kesan: cepat belajar, adaptif, dan progresnya nyata. Kamu itu contoh ‘upgrade patch’ yang berhasil. 😄⬆️",
+        },
+
+        24611058: {
+          name: "SITI HANA WIDATI",
+          gender: "F",
+          pesan:
+            "Mbak Hana, gaya kerja kamu stabil dan disiplin. Kalau ketemu error, kamu bisa pakai pola debugging: kapan muncul, input apa, langkah mana.\n\nSIM itu kadang errornya halus—kayak typo satu huruf, tapi efeknya bisa bikin output ‘ngaco dengan percaya diri’ 😭. Jadi kebiasaan kamu untuk teliti itu sangat tepat.\n\nApresiasi karena kamu konsisten. Orang konsisten itu biasanya menang panjang.",
+          kesan: "Kesan: tenang, konsisten, dan kuat di proses. Kamu tipe yang kalau kerja tim, jadi anchor. ⚓✨",
+        },
+
+        24611045: {
+          name: "ULYA AZIZAH",
+          gender: "F",
+          pesan:
+            "Mbak Ulya, ketelitianmu kerasa banget. Tinggal latih kesimpulan akhir yang singkat tapi tajam.\n\nSIM itu inti-nya: data jadi informasi, informasi jadi keputusan. Jadi kesimpulan kamu itu ‘mahkota’ laporan.\n\nMakasih ya sudah berusaha rapi dan jelas. Kamu bikin praktikum terasa lebih mudah karena hasil kamu gampang dipahami.",
+          kesan: "Kesan: rapi, jelas, fokus. Pengerjaan terlihat matang. Kamu tipe yang ‘nggak banyak gaya, tapi hasilnya berkelas’. 👑✨",
+        },
+
+        24611017: {
+          name: "ZAKRI MAFRO",
+          gender: "M",
+          pesan:
+            "Mas Zakri, kamu sigap dan tegas. Tinggal satu upgrade biar makin pro: dokumentasi langkah. Biar kalau ditanya ulang, kamu tinggal tunjukkan ‘log’-nya.\n\nSIM itu kadang kayak sistem keamanan: kalau nggak ada log, kita cuma bisa nebak-nebak. Jadi jejak kerja itu penting.\n\nApresiasi karena kamu punya kontrol workflow yang baik. Kamu terlihat tahu apa yang dikerjakan dan kenapa.",
+          kesan: "Kesan: tegas, sigap, dan punya kontrol. Kamu itu ‘operator sistem’ yang bisa diandalkan. SIM versi kamu: Sistem Itu Mantap, bukan Mistis. 😄🛡️",
+        },
+      };
+
+      // ====== Helpers ======
+      const $ = (id) => document.getElementById(id);
+
+      function toast(msg) {
+        $("toastText").textContent = msg;
+        const t = bootstrap.Toast.getOrCreateInstance($("toast"), { delay: 2200 });
+        t.show();
+      }
+
+      function titleFor(gender) {
+        return gender === "M" ? "Mas" : "Mbak";
+      }
+
+      function makeCode(nim) {
+        // sekadar "kode akses" biar makin tech
+        // (bukan security beneran ya)
+        const last3 = nim.slice(-3);
+        return `SIM-A-${last3}`;
+      }
+
+      function setStatus(text) {
+        $("statusText").textContent = text;
+      }
+
+      function setFooter() {
+        const name = ($("asprakName").value || localStorage.getItem("asprakName") || "").trim();
+        if (name) {
+          $("footerAsprak").textContent = name.toUpperCase();
+          localStorage.setItem("asprakName", name);
+        } else {
+          $("footerAsprak").textContent = "ASISTEN PRAKTIKUM";
+          localStorage.removeItem("asprakName");
+        }
+      }
+
+      function showResult(nim) {
+        const key = (nim || "").trim();
+        if (!/^\d{8}$/.test(key)) {
+          toast("NIM harus 8 digit angka.");
+          setStatus("Input ditolak: format NIM salah.");
+          return;
+        }
+
+        const rec = DB[key];
+        setFooter();
+
+        if (!rec) {
+          $("resultSection").classList.remove("d-none");
+          $("greetLine").textContent = `NIM tidak terdaftar.`;
+          $("nimOut").textContent = key;
+          $("codeOut").textContent = makeCode(key);
+          $("pesanOut").textContent = "Cek lagi NIM kamu ya. Kalau ini data kelas lain, tinggal tambahin ke DB di file HTML.";
+          $("kesanOut").textContent = "Sistem tidak menemukan entri untuk NIM tersebut.";
+          setStatus("NIM tidak ditemukan di database.");
+          localStorage.setItem("lastNIM", key);
+          return;
+        }
+
+        // Typewriter reset trick
+        $("greetLine").classList.remove("typewriter");
+        void $("greetLine").offsetWidth; // reflow
+        $("greetLine").classList.add("typewriter");
+
+        const sapaan = titleFor(rec.gender);
+        $("greetLine").textContent = `Halo ${sapaan} ${rec.name}`;
+        $("nimOut").textContent = key;
+        $("codeOut").textContent = makeCode(key);
+        $("pesanOut").textContent = rec.pesan;
+        $("kesanOut").textContent = rec.kesan;
+
+        $("resultSection").classList.remove("d-none");
+        setStatus(`Akses dibuka untuk ${rec.name}.`);
+        localStorage.setItem("lastNIM", key);
+      }
+
+      // ====== Events ======
+      $("btnSubmit").addEventListener("click", () => {
+        const nim = $("nimInput").value;
+        showResult(nim);
+        bootstrap.Modal.getInstance($("nimModal")).hide();
+      });
+
+      $("nimInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") $("btnSubmit").click();
+      });
+
+      $("btnAutofill").addEventListener("click", () => {
+        const last = localStorage.getItem("lastNIM");
+        if (!last) return toast("Belum ada NIM terakhir tersimpan.");
+        $("nimInput").value = last;
+        toast("NIM terakhir dimasukkan.");
+        setStatus("NIM terakhir dipanggil dari storage.");
+      });
+
+      $("btnReset").addEventListener("click", () => {
+        localStorage.removeItem("lastNIM");
+        $("nimInput").value = "";
+        $("resultSection").classList.add("d-none");
+        setStatus("Di-reset. Menunggu input NIM…");
+        toast("Reset selesai.");
+      });
+
+      $("btnCopy").addEventListener("click", async () => {
+        const text = `${$("greetLine").textContent}
+NIM: ${$("nimOut").textContent}
+Pesan: ${$("pesanOut").textContent}
+Kesan: ${$("kesanOut").textContent}
+— ${$("footerAsprak").textContent} —`;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          toast("Tersalin ke clipboard.");
+        } catch {
+          toast("Gagal copy (browser membatasi).");
+        }
+      });
+
+      // Mode Asprak: tampilkan pesan general (tanpa NIM)
+      $("btnModeAsprak").addEventListener("click", () => {
+        setFooter();
+        $("resultSection").classList.remove("d-none");
+
+        $("greetLine").classList.remove("typewriter");
+        void $("greetLine").offsetWidth;
+        $("greetLine").classList.add("typewriter");
+
+        $("greetLine").textContent = "Halo Asprak 👩‍💻👨‍💻";
+        $("nimOut").textContent = "—";
+        $("codeOut").textContent = "SIM-A-TEAM";
+        $("pesanOut").textContent = "Untuk tim asprak: jaga ritme, jaga komunikasi, dan jangan lupa istirahat. Praktikan melihat cara kita menjelaskan, bukan cuma hasil akhirnya.";
+        $("kesanOut").textContent = "Semoga kelasnya kompak, responsif, dan tetap fun. Targetnya: praktikan paham, bukan sekadar submit.";
+
+        setStatus("Mode Asprak aktif.");
+        toast("Mode Asprak aktif.");
+      });
+
+      // Init
+      window.addEventListener("load", () => {
+        const last = localStorage.getItem("lastNIM");
+        const asprak = localStorage.getItem("asprakName");
+        if (asprak) $("asprakName").value = asprak;
+        if (last) {
+          $("nimInput").value = last;
+          setStatus("NIM terakhir tersedia. Kamu bisa langsung klik ‘Masukkan NIM’.");
+        }
+      });
+    </script>
+  </body>
+</html>
